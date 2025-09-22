@@ -1,0 +1,17 @@
+---
+import Head from "./Head.astro";
+import Nav from "./Nav.astro";
+const {title = "Astro Strapi Demo Site", description = "A description"} = Astro.props;
+---
+<html>
+    <Head {title} {description} />
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap" rel="stylesheet">
+    <body>
+        <Nav />
+        <main>
+            <section>
+                <slot />
+            </section>
+        </main>
+    </body>
+</html>

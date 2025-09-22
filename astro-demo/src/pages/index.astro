@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Hero from "../components/Hero.astro";
+import About from "../components/About.astro";
+import fetchApi from "../lib/strapi";
+
+const pages = await fetchApi({
+  endpoint: 'pages',
+  page: 'LandingPage',
+  wrappedByKey: 'data',
+});
+
+// URL: http://localhost:1337/api/pages?populate[LandingPage][populate]=*
+// URL: http://localhost:1337/api/pages?populate=*
+
+const landingPage = pages[0];
+const pageData = landingPage?.LandingPage || [];
+
+const heroData = pageData.find(pd => pd.__component === "hero.hero") || {};
+const { heroText, heroDescription } = heroData;
+
+const { bannerimg: {
+	url: bannerImg
+}} = heroData;
+
+const { bannerimg: {
+	url: alternativeText
+}} = heroData;
+
+
+
+const aboutData = pageData.find(pd => pd.__component === "about.about") || {};
+const { aboutText, aboutDescription} = aboutData;
+
+
+const { aboutPhoto: {
+	url: aboutPhotoUrl
+}} = aboutData;
+
+const { aboutPhoto: {
+	alternativeText: aboutAlternativeText
+}}= aboutData;
+
+
+---
+
+<Layout>
+  <Hero {heroText} {heroDescription} {bannerImg} {alternativeText} />
+  <About {aboutText} {aboutDescription} {aboutPhotoUrl} {aboutAlternativeText}  />
+</Layout>
